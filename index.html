@@ -28,32 +28,74 @@
         </ul>
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>factory_girl <a href="http://travis-ci.org/thoughtbot/factory_girl?branch=master"><img src="https://secure.travis-ci.org/thoughtbot/factory_girl.png" alt="Build Status"></a> <a href="https://gemnasium.com/thoughtbot/factory_girl"><img src="https://gemnasium.com/thoughtbot/factory_girl.png" alt="Dependency Status"></a>
+</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies (saved instances, unsaved instances, attribute hashes, and stubbed objects), and support for multiple factories for the same class (user, admin_user, and so on), including factory inheritance.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>If you want to use factory_girl with Rails, see
+<a href="https://github.com/thoughtbot/factory_girl_rails">factory_girl_rails</a>.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>Documentation</h2>
 
-<h3>Designer Templates</h3>
+<p>You should find the documentation for your version of factory_girl on <a href="https://rubygems.org/gems/factory_girl">Rubygems</a>.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>See <a href="https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md">GETTING_STARTED</a> for information on defining and using factories.</p>
 
-<h3>Rather Drive Stick?</h3>
+<h2>Install</h2>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<div class="highlight"><pre>gem install factory_girl
+</pre></div>
 
-<h3>Authors and Contributors</h3>
+<p>or add the following line to Gemfile:</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'factory_girl'</span>
+</pre></div>
 
-<h3>Support or Contact</h3>
+<p>and run <code>bundle install</code> from your shell.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h2>Supported Ruby versions</h2>
+
+<p>The FactoryGirl 3.x+ series supports MRI Ruby 1.9. Additionally, FactoryGirl
+3.6+ supports JRuby 1.6.7.2+ while running in 1.9 mode. See
+<a href="https://github.com/thoughtbot/factory_girl/blob/master/GETTING_STARTED.md">GETTING_STARTED</a>
+for more information on configuring the JRuby environment.</p>
+
+<p>For versions of Ruby prior to 1.9, please use FactoryGirl 2.x.</p>
+
+<h2>More Information</h2>
+
+<ul>
+<li><a href="https://rubygems.org/gems/factory_girl">Rubygems</a></li>
+<li><a href="http://groups.google.com/group/factory_girl">Mailing list</a></li>
+<li><a href="https://github.com/thoughtbot/factory_girl/issues">Issues</a></li>
+<li><a href="http://robots.thoughtbot.com/">GIANT ROBOTS SMASHING INTO OTHER GIANT ROBOTS</a></li>
+</ul><h2>Contributing</h2>
+
+<p>Please see the <a href="https://github.com/thoughtbot/factory_girl/blob/master/CONTRIBUTION_GUIDELINES.md">contribution guidelines</a>.</p>
+
+<h2>Credits</h2>
+
+<p>factory_girl was written by Joe Ferris with contributions from several authors, including:</p>
+
+<ul>
+<li>Alex Sharp</li>
+<li>Eugene Bolshakov</li>
+<li>Jon Yurek</li>
+<li>Josh Nichols</li>
+<li>Josh Owens</li>
+<li>Nate Sutton</li>
+<li>Josh Clayton</li>
+<li>Thomas Walpole</li>
+</ul><p><img src="http://thoughtbot.com/images/tm/logo.png" alt="thoughtbot"></p>
+
+<p>factory_girl is maintained and funded by <a href="http://thoughtbot.com/community">thoughtbot, inc</a></p>
+
+<p>The names and logos for thoughtbot are trademarks of thoughtbot, inc.</p>
+
+<h2>License</h2>
+
+<p>factory_girl is Copyright © 2008-2012 Joe Ferris and thoughtbot. It is free software, and may be redistributed under the terms specified in the LICENSE file.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/thoughtbot">thoughtbot</a></p>
