@@ -599,11 +599,11 @@ blockquote {
 code {
   font-family: "Lucida Sans", Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
   font-size: 13px;
-  color: #efefef;
-  text-shadow: 0px 1px 0px #000;
+  color: $textlight;
+  // text-shadow: 0px 1px 0px #000;
   margin: 0 4px;
   padding: 2px 6px;
-  background: #333;
+  background: whiteSmoke;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   -o-border-radius: 2px;
@@ -614,7 +614,8 @@ code {
 
 pre {
   padding: 8px 15px;
-  background: #333333;
+  background: whiteSmoke;
+  box-shadow: 0 2px 9px #E0E0E0 inset;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
@@ -671,16 +672,17 @@ dt {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 header {
-  padding: 65px 20px 20px 0px;
+  padding: 69px 20px 20px 0px;
   margin: 0;
   // position: fixed;
+
   top: 20px;
   left: 0;
   right: 0;
   width: 100%;
   //@include background;
   // text-align: center;
-  background-color: #D53333;
+  background-color: #971515;
   // background: url(../images/background.png) #4276b6;
   // -moz-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.75);
   // -webkit-box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.75);
@@ -693,13 +695,14 @@ header {
     font: 40px/48px "Quattrocento Sans", Helvetica, Arial, sans-serif;
     color: white;
     font-weight: bolder;
+    text-transform: title;
     // text-shadow: 0px 1px 2px gray;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: $wrapper;
     margin: auto;
-    margin-bottom: 13px;
+    margin-bottom: 0px;
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
   }
@@ -766,7 +769,12 @@ header {
     }
     &:hover {
       background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $tbcolor), color-stop(100%, $tbcolor));
-      @include linear-gradient($tbcolor, lighten($tbcolor, 4));
+      @include linear-gradient(lighten($tbcolor, 7%), lighten($tbcolor, 4));
+      background-color: #ffeca0;
+    }
+    &:active {
+      background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $tbcolor), color-stop(100%, $tbcolor));
+      @include linear-gradient(darken($tbcolor, 4%), darken($tbcolor, 2));
       background-color: #ffeca0;
     }
   }
@@ -822,7 +830,7 @@ header {
 section {
   width: 590px;
   padding: 30px 30px 50px 30px;
-  margin: 38px 0;
+  margin: 31px 0;
   // margin-top: 210px;
   position: relative;
   background: #fbfbfb;
@@ -844,9 +852,12 @@ small {
 }
 
 nav {
+  background: url(../images/ralph.png);
+  background-position:160px 0px;
+  background-repeat: no-repeat;
   width: 230px;
   position: fixed;
-  top: 220px;
+  top: 76px;
   left: 50%;
   margin-left: -580px;
   text-align: right;
@@ -856,6 +867,7 @@ nav ul {
   list-style-image: none;
   font-size: 14px;
   line-height: 24px;
+  margin-top: 125px;
 }
 nav ul li {
   padding: 5px 0px;
@@ -875,7 +887,8 @@ nav ul a {
   color: $textlight;
 }
 nav ul a:hover {
-  color: #999;
+  color: $tbcolor;
+  // color: #999;
 }
 
 footer {
@@ -916,10 +929,16 @@ footer {
 
   #banner {
     width: 100%;
+    .fork {
+      right: 295px;
+    }
+
   }
   #banner .downloads {
-    margin-right: 60px;
+    margin-right: 75px;
   }
+
+
   #banner #logo {
     margin-right: 15px;
   }
@@ -928,7 +947,7 @@ footer {
     border: 1px solid #e5e5e5;
     border-width: 1px 0;
     padding: 20px auto;
-    margin: 190px auto 20px;
+    margin: 30px auto 20px;
     max-width: 600px;
   }
 
@@ -941,13 +960,16 @@ footer {
     width: auto;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @media print, screen and (max-width: 720px) {
   body {
     word-wrap: break-word;
   }
 
   header {
-    padding: 20px 20px;
+    padding: 60px 20px 15px 20px;
     margin: 0;
   }
   header h1 {
@@ -959,11 +981,11 @@ footer {
     -ms-text-overflow: ellipsis;
   }
   header p {
-    display: none;
+
   }
 
   #banner {
-    top: 80px;
+    top: 0px;
   }
   #banner .fork {
     float: left;
@@ -974,7 +996,7 @@ footer {
   }
 
   section {
-    margin-top: 130px;
+    margin-top: 0px;
     margin-bottom: 0px;
     width: auto;
   }
@@ -983,6 +1005,9 @@ footer {
     position: static;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @media print, screen and (max-width: 480px) {
   header {
     position: relative;
@@ -1010,6 +1035,9 @@ footer {
     display: none;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @media print {
   body {
     padding: 0.4in;
@@ -1017,6 +1045,9 @@ footer {
     color: #444;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @media print, screen and (max-height: 680px) {
   footer {
     text-align: center;
@@ -1027,6 +1058,9 @@ footer {
     width: auto;
   }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 @media print, screen and (max-height: 480px) {
   nav {
     display: none;
