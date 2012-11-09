@@ -1084,11 +1084,12 @@ nav ul a:hover {
   /* line 1012, scss/styles.scss */
   header {
     position: relative;
-    padding: 5px 0px;
+    padding: 5px 20px;
     min-height: 0px;
+    margin-top: -20px;
   }
 
-  /* line 1017, scss/styles.scss */
+  /* line 1018, scss/styles.scss */
   header h1 {
     font-size: 24px;
     white-space: nowrap;
@@ -1098,23 +1099,23 @@ nav ul a:hover {
     -ms-text-overflow: ellipsis;
   }
 
-  /* line 1026, scss/styles.scss */
+  /* line 1027, scss/styles.scss */
   section {
     margin-top: 5px;
   }
 
-  /* line 1030, scss/styles.scss */
+  /* line 1031, scss/styles.scss */
   #banner {
     display: none;
   }
 
-  /* line 1034, scss/styles.scss */
+  /* line 1035, scss/styles.scss */
   header ul {
     display: none;
   }
 }
 @media print {
-  /* line 1042, scss/styles.scss */
+  /* line 1043, scss/styles.scss */
   body {
     padding: 0.4in;
     font-size: 12pt;
@@ -1122,7 +1123,7 @@ nav ul a:hover {
   }
 }
 @media print, screen and (max-height: 680px) {
-  /* line 1052, scss/styles.scss */
+  /* line 1053, scss/styles.scss */
   footer {
     text-align: center;
     margin: 20px auto;
@@ -1133,12 +1134,12 @@ nav ul a:hover {
   }
 }
 @media print, screen and (max-height: 480px) {
-  /* line 1065, scss/styles.scss */
+  /* line 1066, scss/styles.scss */
   nav {
     display: none;
   }
 
-  /* line 1069, scss/styles.scss */
+  /* line 1070, scss/styles.scss */
   footer {
     text-align: center;
     margin: 20px auto;
