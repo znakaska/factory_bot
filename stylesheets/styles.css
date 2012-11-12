@@ -659,8 +659,8 @@ code {
 /* line 615, scss/styles.scss */
 pre {
   padding: 8px 15px;
-  background: whiteSmoke;
-  box-shadow: 0 2px 9px #E0E0E0 inset;
+  background: #FAFAFA;
+  box-shadow: 0 2px 9px #EBEBEB inset;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
@@ -800,7 +800,7 @@ header p {
   -moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
   -o-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 1px 1px rgba(0, 0, 0, 0.1);
   background-color: #ad141e;
   margin-left: 5px;
   padding: 10px 12px;
