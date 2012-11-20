@@ -17,10 +17,19 @@ describe FactoryGirl::Attribute::Dynamic do
   end
 
   context "with a block returning its block-level variable" do
-    let(:block) { ->(thing) { thing } }
+    let(:block) { ->(evaluator) { evaluator } }
 
     it "returns self when executing the proc" do
       expect(subject.to_proc.call).to eq subject
+    end
+  end
+
+  context "with a block returning its instance variable" do
+    let(:block) { ->(instance, evaluator) { instance } }
+
+    it "returns the instance variable when executing the proc" do
+      subject.instance_variable_set(:@instance, 3)
+      subject.to_proc.call.should == 3
     end
   end
 
