@@ -3,6 +3,7 @@ $textlight: #666;
 
 $wrapper: 650px;
 
+
 @mixin linear-gradient($top, $bottom) {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $top), color-stop(100%, $bottom));
   background: -webkit-linear-gradient($top, $bottom);
@@ -518,7 +519,7 @@ table {
 }
 
 body {
-  font: 14px/22px "Quattrocento Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 14px/22px  "Helvetica Neue", Helvetica, Arial, sans-serif; //"Quattrocento Sans",
   color: $textlight;
   font-weight: 300;
   margin: 0px;
@@ -599,17 +600,18 @@ blockquote {
 code {
   font-family: "Lucida Sans", Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
   font-size: 13px;
-  color: $textlight;
+  font-style: bold;
+  color: gray;
   // text-shadow: 0px 1px 0px #000;
-  margin: 0 4px;
-  padding: 2px 6px;
-  background: whiteSmoke;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -o-border-radius: 2px;
-  -ms-border-radius: 2px;
-  -khtml-border-radius: 2px;
-  border-radius: 2px;
+  // margin: 0 4px;
+  // padding: 2px 6px;
+ // background: whiteSmoke;
+  // -moz-border-radius: 2px;
+  // -webkit-border-radius: 2px;
+  // -o-border-radius: 2px;
+  // -ms-border-radius: 2px;
+  // -khtml-border-radius: 2px;
+  // border-radius: 2px;
 }
 
 pre {
@@ -692,7 +694,7 @@ header {
   -webkit-font-smoothing: antialiased;
   min-height: 76px;
   h1 {
-    font: 40px/48px "Quattrocento Sans", Helvetica, Arial, sans-serif;
+    font: 40px/48px Helvetica, Arial, sans-serif; //"Quattrocento Sans",
     color: white;
     font-weight: bolder;
     text-transform: title;
