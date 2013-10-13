@@ -12,13 +12,9 @@ module FactoryGirl
 
     def initialize(build_strategy, overrides = {})
       @build_strategy = build_strategy
-      @overrides = overrides
+      @overrides = overrides.symbolize_keys
       @cached_attributes = overrides
       @instance = nil
-
-      @overrides.each do |name, value|
-        singleton_class.define_attribute(name) { value }
-      end
     end
 
     def association(factory_name, *traits_and_overrides)
@@ -36,7 +32,9 @@ module FactoryGirl
     end
 
     def method_missing(method_name, *args, &block)
-      if @instance.respond_to?(method_name)
+      if @overrides.key?(method_name)
+        @overrides[method_name]
+      elsif @instance.respond_to?(method_name)
         @instance.send(method_name, *args, &block)
       else
         SyntaxRunner.new.send(method_name, *args, &block)
