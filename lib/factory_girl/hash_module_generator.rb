@@ -1,6 +1,27 @@
+require 'active_support/core_ext/class/attribute'
+
 module FactoryGirl
   # @api private
   class HashModuleGenerator
+    class_attribute :foo
+    self.foo = {}
+
+    def self.cleanup
+      self.foo = {}
+    end
+
+    def self.to_module(attributes)
+      if FactoryGirl.configuration.module_caching
+        if result = foo[attributes.hash]
+          result
+        else
+          foo[attributes.hash] = new(attributes).to_module
+        end
+      else
+        new(attributes).to_module
+      end
+    end
+
     def initialize(hash)
       @hash = hash
     end

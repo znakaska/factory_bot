@@ -23,6 +23,14 @@ module FactoryGirl
       map(&:name)
     end
 
+    def hash
+      name.hash ^ attributes.hash
+    end
+
+    def ==(other)
+      name == other.name && attributes == other.attributes
+    end
+
     def associations
       AttributeList.new(@name, select(&:association?))
     end
@@ -38,6 +46,10 @@ module FactoryGirl
     def apply_attributes(attributes_to_apply)
       attributes_to_apply.each { |attribute| add_attribute(attribute) }
     end
+
+    protected
+
+    attr_reader :name, :attributes
 
     private
 

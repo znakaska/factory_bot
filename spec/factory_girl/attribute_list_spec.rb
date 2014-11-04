@@ -141,3 +141,59 @@ describe FactoryGirl::AttributeList, "generating names" do
     expect(subject.associations.names).to eq [:avatar]
   end
 end
+
+describe FactoryGirl::AttributeList, "#hash" do
+  let(:static_attribute)  { FactoryGirl::Attribute::Static.new(:full_name, "value", false) }
+  let(:dynamic_attribute) { FactoryGirl::Attribute::Dynamic.new(:email, false, ->(u) { "#{u.full_name}@example.com" }) }
+
+  it "generates the value correctly" do
+    list = FactoryGirl::AttributeList.new(:foo)
+    list.define_attribute(static_attribute)
+
+    second_list = FactoryGirl::AttributeList.new(:foo)
+    second_list.define_attribute static_attribute
+
+    expect(list.hash).to eq second_list.hash
+  end
+
+  it "generates the value correctly again" do
+    list = FactoryGirl::AttributeList.new(:foo)
+    list.define_attribute(static_attribute)
+
+    second_list = FactoryGirl::AttributeList.new(:bar)
+    second_list.define_attribute static_attribute
+
+    expect(list.hash).not_to eq second_list.hash
+  end
+
+  it "generates the value correctly a third time" do
+    list = FactoryGirl::AttributeList.new(:foo)
+    list.define_attribute(static_attribute)
+
+    second_list = FactoryGirl::AttributeList.new(:foo)
+    second_list.define_attribute dynamic_attribute
+
+    expect(list.hash).not_to eq second_list.hash
+  end
+
+  it "generates the value correctly a fourth time" do
+    list = FactoryGirl::AttributeList.new(:foo)
+    list.define_attribute(dynamic_attribute)
+
+    second_list = FactoryGirl::AttributeList.new(:foo)
+    second_list.define_attribute dynamic_attribute
+
+    expect(list.hash).to eq second_list.hash
+  end
+
+  it "generates the value correctly a fifth time" do
+    list = FactoryGirl::AttributeList.new(:foo)
+    list.define_attribute(dynamic_attribute)
+    list.define_attribute(static_attribute)
+
+    second_list = FactoryGirl::AttributeList.new(:foo)
+    second_list.define_attribute dynamic_attribute
+
+    expect(list.hash).not_to eq second_list.hash
+  end
+end

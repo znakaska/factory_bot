@@ -3,6 +3,8 @@ module FactoryGirl
   class Configuration
     attr_reader :factories, :sequences, :traits, :strategies, :callback_names
 
+    attr_accessor :module_caching
+
     def initialize
       @factories      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Factory'))
       @sequences      = Decorator::DisallowsDuplicatesRegistry.new(Registry.new('Sequence'))
@@ -10,6 +12,7 @@ module FactoryGirl
       @strategies     = Registry.new('Strategy')
       @callback_names = Set.new
       @definition     = Definition.new
+      @module_caching = true
 
       to_create { |instance| instance.save! }
       initialize_with { new }

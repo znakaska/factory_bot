@@ -16,7 +16,7 @@ module FactoryGirl
       @cached_attributes = overrides
       @instance = nil
 
-      extend HashModuleGenerator.new(@overrides).to_module
+      extend HashModuleGenerator.to_module(@overrides)
     end
 
     def association(factory_name, *traits_and_overrides)
