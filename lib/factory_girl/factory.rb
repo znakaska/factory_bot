@@ -1,3 +1,4 @@
+require 'pry'
 require 'active_support/core_ext/hash/keys'
 require 'active_support/inflector'
 
@@ -102,6 +103,7 @@ module FactoryGirl
     end
 
     def evaluator_class
+      binding.pry
       @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
     end
 
