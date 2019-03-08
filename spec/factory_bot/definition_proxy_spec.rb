@@ -242,9 +242,9 @@ describe FactoryBot::DefinitionProxy, "#trait" do
   let(:proxy) { FactoryBot::DefinitionProxy.new(subject) }
 
   it "declares a trait" do
-    male_trait = Proc.new { gender { "Male" } }
-    proxy.trait(:male, &male_trait)
-    expect(subject).to have_trait(:male).with_block(male_trait)
+    draft_trait = Proc.new { published { false } }
+    proxy.trait(:draft, &draft_trait)
+    expect(subject).to have_trait(:draft).with_block(draft_trait)
   end
 end
 

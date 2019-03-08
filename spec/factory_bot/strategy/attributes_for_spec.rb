@@ -1,5 +1,5 @@
 describe FactoryBot::Strategy::AttributesFor do
-  let(:result)     { { name: "John Doe", gender: "Male", admin: false } }
+  let(:result)     { { title: "My Draft Post", published: false } }
   let(:evaluation) { double("evaluation", hash: result) }
 
   it_should_behave_like "strategy without association support"

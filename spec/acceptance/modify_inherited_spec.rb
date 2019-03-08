@@ -1,50 +1,43 @@
 describe "modifying inherited factories with traits" do
   before do
-    define_model("User", gender: :string, admin: :boolean, age: :integer)
+    define_model("Post", name: :string, published: :boolean)
     FactoryBot.define do
-      factory :user do
-        trait(:female) { gender { "Female" } }
-        trait(:male)   { gender { "Male" } }
+      factory :post do
+        name { "Post" }
+        trait(:published) { published { true } }
+        trait(:draft) { published { false } }
 
-        trait(:young_admin) do
-          admin { true }
-          age   { 17 }
+        published
+
+        factory :ruby_post do
+          name { "Post About Ruby" }
         end
 
-        female
-        young_admin
-
-        factory :female_user do
-          gender { "Female" }
-          age { 25 }
-        end
-
-        factory :male_user do
-          gender { "Male" }
+        factory :ruby_draft do
+          name { "Draft About Ruby" }
+          draft
         end
       end
     end
   end
 
   it "returns the correct value for overridden attributes from traits" do
-    expect(FactoryBot.build(:male_user).gender).to eq "Male"
+    expect(FactoryBot.build(:ruby_post).name).to eq "Post About Ruby"
   end
 
   it "returns the correct value for overridden attributes from traits defining multiple attributes" do
-    expect(FactoryBot.build(:female_user).gender).to eq "Female"
-    expect(FactoryBot.build(:female_user).age).to eq 25
-    expect(FactoryBot.build(:female_user).admin).to eq true
+    expect(FactoryBot.build(:ruby_draft).name).to eq "Draft About Ruby"
+    expect(FactoryBot.build(:ruby_draft).published).to eq false
   end
 
   it "allows modification of attributes created via traits" do
     FactoryBot.modify do
-      factory :male_user do
-        age { 20 }
+      factory :ruby_draft do
+        name { "Modified Draft About Ruby" }
       end
     end
 
-    expect(FactoryBot.build(:male_user).gender).to eq "Male"
-    expect(FactoryBot.build(:male_user).age).to eq 20
-    expect(FactoryBot.build(:male_user).admin).to eq true
+    expect(FactoryBot.build(:ruby_draft).name).to eq "Modified Draft About Ruby"
+    expect(FactoryBot.build(:ruby_draft).published).to eq false
   end
 end
