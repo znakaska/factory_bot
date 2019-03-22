@@ -251,7 +251,7 @@ describe "traits with callbacks" do
 
     FactoryBot.define do
       factory :post do
-        name { "John" }
+        name { "A Post" }
 
         trait :great do
           after(:create) { |post| post.name.upcase! }
@@ -273,12 +273,12 @@ describe "traits with callbacks" do
 
   context "when the factory has a trait passed via arguments" do
     subject    { FactoryBot.create(:caps_post) }
-    its(:name) { should eq "JOHN" }
+    its(:name) { should eq "A POST" }
   end
 
   context "when the factory has an implicit trait" do
     subject    { FactoryBot.create(:caps_post_implicit_trait) }
-    its(:name) { should eq "JOHN" }
+    its(:name) { should eq "A POST" }
   end
 
   it "executes callbacks in the order assigned" do
