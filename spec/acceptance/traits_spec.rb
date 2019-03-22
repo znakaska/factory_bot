@@ -471,21 +471,21 @@ describe "making sure the factory is properly compiled the first time we want to
 
     FactoryBot.define do
       factory :post do
-        trait(:female) { published_at { Date.parse("2000/01/01") } }
-        trait(:published) { draft { false } }
+        trait(:published_at_y2k) { published_at { Date.parse("2000/01/01") } }
+        trait(:draft) { draft { true } }
 
-        factory :female_post do
-          female
+        factory :y2k_post do
+          published_at_y2k
         end
       end
     end
   end
 
   it "can honor traits on the very first call" do
-    post = FactoryBot.build(:female_post, :published, age: 30)
+    post = FactoryBot.build(:y2k_post, :draft, age: 30)
     expect(post.published_at).to eq Date.parse("2000/01/01")
     expect(post.age).to eq 30
-    expect(post.draft).to be false
+    expect(post.draft).to be true
   end
 end
 
