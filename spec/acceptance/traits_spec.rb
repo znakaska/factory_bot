@@ -467,12 +467,12 @@ end
 
 describe "making sure the factory is properly compiled the first time we want to instantiate it" do
   before do
-    define_model("Post", role: :string, gender: :string, age: :integer)
+    define_model("Post", draft: :boolean, published_at: :date, age: :integer)
 
     FactoryBot.define do
       factory :post do
-        trait(:female) { gender { "female" } }
-        trait(:admin) { role { "admin" } }
+        trait(:female) { published_at { Date.parse("2000/01/01") } }
+        trait(:published) { draft { false } }
 
         factory :female_post do
           female
@@ -482,10 +482,10 @@ describe "making sure the factory is properly compiled the first time we want to
   end
 
   it "can honor traits on the very first call" do
-    post = FactoryBot.build(:female_post, :admin, age: 30)
-    expect(post.gender).to eq "female"
+    post = FactoryBot.build(:female_post, :published, age: 30)
+    expect(post.published_at).to eq Date.parse("2000/01/01")
     expect(post.age).to eq 30
-    expect(post.role).to eq "admin"
+    expect(post.draft).to be false
   end
 end
 
