@@ -638,8 +638,7 @@ end
 describe "nested implicit traits" do
   before do
     define_class("Post") do
-      attr_accessor :gender, :role
-      attr_reader :name
+      attr_accessor :draft, :name, :published_at
 
       def initialize(name)
         @name = name
@@ -649,34 +648,34 @@ describe "nested implicit traits" do
 
   shared_examples_for "assigning data from traits" do
     it "assigns the correct values" do
-      post = FactoryBot.create(:post, :female_admin)
-      expect(post.gender).to eq "FEMALE"
-      expect(post.role).to eq "ADMIN"
-      expect(post.name).to eq "Jane Doe"
+      post = FactoryBot.create(:post, :y2k_draft)
+      expect(post.published_at).to eq Date.parse("2000/01/01")
+      expect(post.draft).to be true
+      expect(post.name).to eq "DRAFT: Y2K"
     end
   end
 
   context "defined outside the factory" do
     before do
       FactoryBot.define do
-        trait :female do
-          gender { "female" }
-          to_create { |instance| instance.gender = instance.gender.upcase }
+        trait :published_at_y2k do
+          published_at { Date.parse("1999/12/31") }
+          to_create { |instance| instance.published_at = instance.published_at + 1.day }
         end
 
-        trait :jane_doe do
-          initialize_with { new("Jane Doe") }
+        trait :named_y2k do
+          initialize_with { new("Y2K") }
         end
 
-        trait :admin do
-          role { "admin" }
-          after(:build) { |instance| instance.role = instance.role.upcase }
+        trait :draft do
+          draft { true }
+          after(:build) { |instance| instance.name = "DRAFT: #{instance.name}" }
         end
 
-        trait :female_admin do
-          female
-          admin
-          jane_doe
+        trait :y2k_draft do
+          published_at_y2k
+          draft
+          named_y2k
         end
 
         factory :post
@@ -690,24 +689,24 @@ describe "nested implicit traits" do
     before do
       FactoryBot.define do
         factory :post do
-          trait :female do
-            gender { "female" }
-            to_create { |instance| instance.gender = instance.gender.upcase }
+          trait :published_at_y2k do
+            published_at { Date.parse("1999/12/31") }
+            to_create { |instance| instance.published_at = instance.published_at + 1.day }
           end
 
-          trait :jane_doe do
-            initialize_with { new("Jane Doe") }
+          trait :named_y2k do
+            initialize_with { new("Y2K") }
           end
 
-          trait :admin do
-            role { "admin" }
-            after(:build) { |instance| instance.role = instance.role.upcase }
+          trait :draft do
+            draft { true }
+            after(:build) { |instance| instance.name = "DRAFT: #{instance.name}" }
           end
 
-          trait :female_admin do
-            female
-            admin
-            jane_doe
+          trait :y2k_draft do
+            published_at_y2k
+            draft
+            named_y2k
           end
         end
       end
