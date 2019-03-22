@@ -288,14 +288,14 @@ end
 
 describe "traits added via strategy" do
   before do
-    define_model("Post", name: :string, admin: :boolean)
+    define_model("Post", name: :string, draft: :boolean)
 
     FactoryBot.define do
       factory :post do
-        name { "John" }
+        name { "A Post" }
 
-        trait :admin do
-          admin { true }
+        trait :draft do
+          draft { true }
         end
 
         trait :great do
@@ -306,61 +306,61 @@ describe "traits added via strategy" do
   end
 
   context "adding traits in create" do
-    subject { FactoryBot.create(:post, :admin, :great, name: "Joe") }
+    subject { FactoryBot.create(:post, :draft, :great, name: "B Post") }
 
-    its(:admin) { should be true }
-    its(:name)  { should eq "JOE" }
+    its(:draft) { should be true }
+    its(:name)  { should eq "B POST" }
 
     it "doesn't modify the post factory" do
       subject
-      expect(FactoryBot.create(:post)).not_to be_admin
-      expect(FactoryBot.create(:post).name).to eq "John"
+      expect(FactoryBot.create(:post)).not_to be_draft
+      expect(FactoryBot.create(:post).name).to eq "A Post"
     end
   end
 
   context "adding traits in build" do
-    subject { FactoryBot.build(:post, :admin, :great, name: "Joe") }
+    subject { FactoryBot.build(:post, :draft, :great, name: "B Post") }
 
-    its(:admin) { should be true }
-    its(:name)  { should eq "Joe" }
+    its(:draft) { should be true }
+    its(:name)  { should eq "B Post" }
   end
 
   context "adding traits in attributes_for" do
-    subject { FactoryBot.attributes_for(:post, :admin, :great) }
+    subject { FactoryBot.attributes_for(:post, :draft, :great) }
 
-    its([:admin]) { should be true }
-    its([:name])  { should eq "John" }
+    its([:draft]) { should be true }
+    its([:name])  { should eq "A Post" }
   end
 
   context "adding traits in build_stubbed" do
-    subject { FactoryBot.build_stubbed(:post, :admin, :great, name: "Jack") }
+    subject { FactoryBot.build_stubbed(:post, :draft, :great, name: "Blog Post") }
 
-    its(:admin) { should be true }
-    its(:name)  { should eq "Jack" }
+    its(:draft) { should be true }
+    its(:name)  { should eq "Blog Post" }
   end
 
   context "adding traits in create_list" do
-    subject { FactoryBot.create_list(:post, 2, :admin, :great, name: "Joe") }
+    subject { FactoryBot.create_list(:post, 2, :draft, :great, name: "Blog") }
 
     its(:length) { should eq 2 }
 
     it "creates all the records" do
       subject.each do |record|
-        expect(record.admin).to be true
-        expect(record.name).to eq "JOE"
+        expect(record.draft).to be true
+        expect(record.name).to eq "BLOG"
       end
     end
   end
 
   context "adding traits in build_list" do
-    subject { FactoryBot.build_list(:post, 2, :admin, :great, name: "Joe") }
+    subject { FactoryBot.build_list(:post, 2, :draft, :great, name: "Blog") }
 
     its(:length) { should eq 2 }
 
     it "builds all the records" do
       subject.each do |record|
-        expect(record.admin).to be true
-        expect(record.name).to eq "Joe"
+        expect(record.draft).to be true
+        expect(record.name).to eq "Blog"
       end
     end
   end
