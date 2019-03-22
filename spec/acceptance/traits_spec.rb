@@ -748,8 +748,8 @@ describe "traits used in associations" do
       belongs_to :post
     end
 
-    define_model("Order", creator_id: :integer) do
-      belongs_to :creator, class_name: "Post"
+    define_model("Order", promotional_post_id: :integer) do
+      belongs_to :promotional_post, class_name: "Post"
     end
 
     define_model("Image", post_id: :integer) do
@@ -766,15 +766,15 @@ describe "traits used in associations" do
       end
 
       factory :image do
-        association :post, factory: [:post, :published], name: "John Doe"
+        association :post, factory: [:post, :published], name: "With Image"
       end
 
       factory :comment do
-        association :post, :published, name: "Joe Slick"
+        association :post, :published, name: "With Comment"
       end
 
       factory :order do
-        association :creator, :published, factory: :post, name: "Joe Creator"
+        association :promotional_post, :published, factory: :post, name: "With Order"
       end
     end
   end
@@ -782,18 +782,18 @@ describe "traits used in associations" do
   it "allows assigning traits for the factory of an association" do
     post = FactoryBot.create(:image).post
     expect(post).to be_published
-    expect(post.name).to eq "John Doe"
+    expect(post.name).to eq "With Image"
   end
 
   it "allows inline traits with the default association" do
     post = FactoryBot.create(:comment).post
     expect(post).to be_published
-    expect(post.name).to eq "Joe Slick"
+    expect(post.name).to eq "With Comment"
   end
 
   it "allows inline traits with a specific factory for an association" do
-    creator = FactoryBot.create(:order).creator
-    expect(creator).to be_published
-    expect(creator.name).to eq "Joe Creator"
+    promotional_post = FactoryBot.create(:order).promotional_post
+    expect(promotional_post).to be_published
+    expect(promotional_post.name).to eq "With Order"
   end
 end
