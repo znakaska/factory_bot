@@ -368,25 +368,25 @@ end
 
 describe "traits and dynamic attributes that are applied simultaneously" do
   before do
-    define_model("Post", name: :string, email: :string, combined: :string)
+    define_model("Post", name: :string, published_at: :date, combined: :string)
 
     FactoryBot.define do
-      trait :email do
-        email { "#{name}@example.com" }
+      trait :published_at_y2k do
+        published_at { Date.parse("2000/01/01") }
       end
 
       factory :post do
-        name { "John" }
-        email
-        combined { "#{name} <#{email}>" }
+        name { "Post" }
+        published_at_y2k
+        combined { "#{name} <#{published_at.year}>" }
       end
     end
   end
 
-  subject        { FactoryBot.build(:post) }
-  its(:name)     { should eq "John" }
-  its(:email)    { should eq "John@example.com" }
-  its(:combined) { should eq "John <John@example.com>" }
+  subject            { FactoryBot.build(:post) }
+  its(:name)         { should eq "Post" }
+  its(:published_at) { should eq Date.parse("2000/01/01") }
+  its(:combined)     { should eq "Post <2000>" }
 end
 
 describe "applying inline traits" do
