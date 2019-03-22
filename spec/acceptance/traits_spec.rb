@@ -743,7 +743,7 @@ end
 
 describe "traits used in associations" do
   before do
-    define_model("Post", admin: :boolean, name: :string)
+    define_model("Post", published: :boolean, name: :string)
 
     define_model("Comment", post_id: :integer) do
       belongs_to :post
@@ -759,42 +759,42 @@ describe "traits used in associations" do
 
     FactoryBot.define do
       factory :post do
-        admin { false }
+        published { false }
 
-        trait :admin do
-          admin { true }
+        trait :published do
+          published { true }
         end
       end
 
       factory :image do
-        association :post, factory: [:post, :admin], name: "John Doe"
+        association :post, factory: [:post, :published], name: "John Doe"
       end
 
       factory :comment do
-        association :post, :admin, name: "Joe Slick"
+        association :post, :published, name: "Joe Slick"
       end
 
       factory :order do
-        association :creator, :admin, factory: :post, name: "Joe Creator"
+        association :creator, :published, factory: :post, name: "Joe Creator"
       end
     end
   end
 
   it "allows assigning traits for the factory of an association" do
     post = FactoryBot.create(:image).post
-    expect(post).to be_admin
+    expect(post).to be_published
     expect(post.name).to eq "John Doe"
   end
 
   it "allows inline traits with the default association" do
     post = FactoryBot.create(:comment).post
-    expect(post).to be_admin
+    expect(post).to be_published
     expect(post.name).to eq "Joe Slick"
   end
 
   it "allows inline traits with a specific factory for an association" do
     creator = FactoryBot.create(:order).creator
-    expect(creator).to be_admin
+    expect(creator).to be_published
     expect(creator.name).to eq "Joe Creator"
   end
 end
