@@ -417,17 +417,17 @@ end
 
 describe "inline traits overriding existing attributes" do
   before do
-    define_model("Post", status: :string)
+    define_model("Request", status: :string)
 
     FactoryBot.define do
-      factory :post do
+      factory :request do
         status { "pending" }
 
         trait(:accepted) { status { "accepted" } }
         trait(:declined) { status { "declined" } }
 
-        factory :declined_post, traits: [:declined]
-        factory :extended_declined_post, traits: [:declined] do
+        factory :declined_request, traits: [:declined]
+        factory :extended_declined_request, traits: [:declined] do
           status { "extended_declined" }
         end
       end
@@ -435,33 +435,33 @@ describe "inline traits overriding existing attributes" do
   end
 
   it "returns the default status" do
-    expect(FactoryBot.build(:post).status).to eq "pending"
+    expect(FactoryBot.build(:request).status).to eq "pending"
   end
 
   it "prefers inline trait attributes over default attributes" do
-    expect(FactoryBot.build(:post, :accepted).status).to eq "accepted"
+    expect(FactoryBot.build(:request, :accepted).status).to eq "accepted"
   end
 
   it "prefers traits on a factory over default attributes" do
-    expect(FactoryBot.build(:declined_post).status).to eq "declined"
+    expect(FactoryBot.build(:declined_request).status).to eq "declined"
   end
 
   it "prefers inline trait attributes over traits on a factory" do
-    expect(FactoryBot.build(:declined_post, :accepted).status).to eq "accepted"
+    expect(FactoryBot.build(:declined_request, :accepted).status).to eq "accepted"
   end
 
   it "prefers attributes on factories over attributes from non-inline traits" do
-    expect(FactoryBot.build(:extended_declined_post).status).to eq "extended_declined"
+    expect(FactoryBot.build(:extended_declined_request).status).to eq "extended_declined"
   end
 
   it "prefers inline traits over attributes on factories" do
-    expect(FactoryBot.build(:extended_declined_post, :accepted).status).to eq "accepted"
+    expect(FactoryBot.build(:extended_declined_request, :accepted).status).to eq "accepted"
   end
 
   it "prefers overridden attributes over attributes from traits, inline traits, or attributes on factories" do
-    post = FactoryBot.build(:extended_declined_post, :accepted, status: "completely overridden")
+    request = FactoryBot.build(:extended_declined_request, :accepted, status: "completely overridden")
 
-    expect(post.status).to eq "completely overridden"
+    expect(request.status).to eq "completely overridden"
   end
 end
 
