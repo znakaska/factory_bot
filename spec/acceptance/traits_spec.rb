@@ -183,49 +183,49 @@ end
 describe "trait indifferent access" do
   context "when trait is defined as a string" do
     it "can be invoked with a string" do
-      build_post_factory_with_admin_trait("admin")
+      build_post_factory_with_draft_trait("draft")
 
-      post = FactoryBot.build(:post, "admin")
+      post = FactoryBot.build(:post, "draft")
 
-      expect(post).to be_admin
+      expect(post).to be_draft
     end
 
     it "can be invoked with a symbol" do
-      build_post_factory_with_admin_trait("admin")
+      build_post_factory_with_draft_trait("draft")
 
-      post = FactoryBot.build(:post, :admin)
+      post = FactoryBot.build(:post, :draft)
 
-      expect(post).to be_admin
+      expect(post).to be_draft
     end
   end
 
   context "when trait is defined as a symbol" do
     it "can be invoked with a string" do
-      build_post_factory_with_admin_trait(:admin)
+      build_post_factory_with_draft_trait(:draft)
 
-      post = FactoryBot.build(:post, "admin")
+      post = FactoryBot.build(:post, "draft")
 
-      expect(post).to be_admin
+      expect(post).to be_draft
     end
 
     it "can be invoked with a symbol" do
-      build_post_factory_with_admin_trait(:admin)
+      build_post_factory_with_draft_trait(:draft)
 
-      post = FactoryBot.build(:post, :admin)
+      post = FactoryBot.build(:post, :draft)
 
-      expect(post).to be_admin
+      expect(post).to be_draft
     end
   end
 
-  def build_post_factory_with_admin_trait(trait_name)
-    define_model("Post", admin: :boolean)
+  def build_post_factory_with_draft_trait(trait_name)
+    define_model("Post", draft: :boolean)
 
     FactoryBot.define do
       factory :post do
-        admin { false }
+        draft { false }
 
         trait trait_name do
-          admin { true }
+          draft { true }
         end
       end
     end
