@@ -80,6 +80,8 @@ module FactoryBot
   end
 
   class << self
+    attr_accessor :file_fixture_path
+
     delegate :factories,
       :register_strategy,
       :rewind_sequences,

@@ -33,6 +33,22 @@ module FactoryBot
       @build_strategy.association(runner)
     end
 
+    # TODO: only define this if Rack::Test::UploadedFile exists
+    def file_fixture(filename)
+      if FactoryBot.file_fixture_path.present?
+        path = Pathname.new(File.join(FactoryBot.file_fixture_path, filename))
+
+        if path.exist?
+          Rack::Test::UploadedFile.new(path)
+        else
+          msg = "the directory '%s' does not contain a file named '%s'"
+          Kernel.raise ArgumentError, msg % [file_fixture_path, filename]
+        end
+      else
+        Kernel.raise "to use the file_fixture helper you must set FactoryBot.file_fixture_path='path/to/fixture_files'"
+      end
+    end
+
     attr_accessor :instance
 
     if ::Gem::Version.new(::RUBY_VERSION) >= ::Gem::Version.new("2.7")
