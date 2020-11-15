@@ -17,7 +17,7 @@ module FactoryBot
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :defined_traits, :inherit_traits, :append_traits, to: :@definition
+      :defined_traits, :inherit_traits, :append_traits, :generate_attributes, to: :@definition
 
     def build_class
       @build_class ||= if class_name.is_a? Class
@@ -83,16 +83,27 @@ module FactoryBot
     def compile
       unless @compiled
         parent.compile
-        parent.defined_traits.each { |trait| define_trait(trait) }
         @definition.compile(build_class)
         build_hierarchy
         @compiled = true
       end
     end
 
+    def ancestors
+      [parent, *parent.ancestors]
+    end
+
     def with_traits(traits)
       clone.tap do |factory_with_traits|
         factory_with_traits.append_traits traits
+      end
+    end
+
+    def parent
+      @parent_factory ||= if @parent
+        FactoryBot::Internal.factory_by_name(@parent)
+      else
+        NullFactory.new
       end
     end
 
@@ -102,15 +113,16 @@ module FactoryBot
       @class_name || parent.class_name || name
     end
 
-    def evaluator_class
-      @evaluator_class ||= EvaluatorClassDefiner.new(attributes, parent.evaluator_class).evaluator_class
+    def evaluator_class(*lookup)
+      @evaluator_class ||= EvaluatorClassDefiner.new(
+        attributes(*lookup),
+        parent.evaluator_class(*lookup, self),
+      ).evaluator_class
     end
 
-    def attributes
+    def attributes(*lookup)
       compile
-      AttributeList.new(@name).tap do |list|
-        list.apply_attributes definition.attributes
-      end
+      generate_attributes(*lookup, *ancestors, self)
     end
 
     def hierarchy_class
@@ -122,7 +134,7 @@ module FactoryBot
     end
 
     def build_hierarchy
-      hierarchy_class.build_from_definition definition
+      hierarchy_class.build_from_factory self
     end
 
     def callbacks
@@ -141,14 +153,6 @@ module FactoryBot
 
     def assert_valid_options(options)
       options.assert_valid_keys(:class, :parent, :aliases, :traits)
-    end
-
-    def parent
-      if @parent
-        FactoryBot::Internal.factory_by_name(@parent)
-      else
-        NullFactory.new
-      end
     end
 
     def initialize_copy(source)

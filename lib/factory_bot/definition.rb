@@ -20,29 +20,35 @@ module FactoryBot
 
     delegate :declare_attribute, to: :declarations
 
-    def attributes
-      @attributes ||= AttributeList.new.tap do |attribute_list|
-        attribute_lists = aggregate_from_traits_and_self(:attributes) { declarations.attributes }
+    def attributes(*lookup)
+      @attributes ||= generate_attributes(*lookup)
+    end
+
+    def generate_attributes(*lookup)
+      AttributeList.new.tap do |attribute_list|
+        attribute_lists = aggregate_from_traits(:attributes, *lookup) do
+          declarations.attributes
+        end
         attribute_lists.each do |attributes|
           attribute_list.apply_attributes attributes
         end
       end
     end
 
-    def to_create(&block)
+    def to_create(*lookup, &block)
       if block_given?
         @to_create = block
       else
-        aggregate_from_traits_and_self(:to_create) { @to_create }.last
+        aggregate_from_traits(:to_create, *lookup) { @to_create }.last
       end
     end
 
-    def constructor
-      aggregate_from_traits_and_self(:constructor) { @constructor }.last
+    def constructor(*lookup)
+      aggregate_from_traits(:constructor, *lookup) { @constructor }.last
     end
 
-    def callbacks
-      aggregate_from_traits_and_self(:callbacks) { @callbacks }
+    def callbacks(*lookup)
+      aggregate_from_traits(:callbacks, *lookup) { @callbacks }
     end
 
     def compile(klass = nil)
@@ -50,11 +56,6 @@ module FactoryBot
         expand_enum_traits(klass) unless klass.nil?
 
         declarations.attributes
-
-        defined_traits.each do |defined_trait|
-          base_traits.each { |bt| bt.define_trait defined_trait }
-          additional_traits.each { |at| at.define_trait defined_trait }
-        end
 
         @compiled = true
       end
@@ -107,10 +108,16 @@ module FactoryBot
       end
     end
 
+    def definition
+      self
+    end
+
     private
 
-    def base_traits
-      @base_traits.map { |name| trait_by_name(name) }
+    def base_traits(*lookup)
+      @base_traits.flat_map do |name|
+        traits_by_name(name, *lookup)
+      end
     rescue KeyError => error
       raise error_with_definition_name(error)
     end
@@ -127,34 +134,50 @@ module FactoryBot
       end
     end
 
-    def additional_traits
-      @additional_traits.map { |name| trait_by_name(name) }
+    def additional_traits(*lookup)
+      @additional_traits.flat_map do |name|
+        traits_by_name(name, *lookup)
+      end
     end
 
-    def trait_by_name(name)
-      trait_for(name) || Internal.trait_by_name(name)
+    def traits_by_name(name, *lookup)
+      traits = unique_by_definition(*lookup).flat_map do |object|
+        object.defined_traits.find do |trait|
+          trait.name == name.to_s
+        end
+      end.compact.uniq
+
+      if traits.empty?
+        traits << Internal.trait_by_name(name)
+      end
+
+      traits
     end
 
-    def trait_for(name)
-      @defined_traits_by_name ||= defined_traits.each_with_object({}) { |t, memo| memo[t.name] ||= t }
-      @defined_traits_by_name[name.to_s]
+    def unique_by_definition(*objects)
+      objects.uniq(&:definition)
     end
 
     def initialize_copy(source)
       super
       @attributes = nil
       @compiled = false
-      @defined_traits_by_name = nil
     end
 
-    def aggregate_from_traits_and_self(method_name, &block)
+    def aggregate_from_traits(method_name, *lookup)
       compile
 
-      [
-        base_traits.map(&method_name),
-        instance_exec(&block),
-        additional_traits.map(&method_name)
-      ].flatten.compact
+      results = base_traits(*lookup).map do |trait|
+        trait.send(method_name, *lookup)
+      end
+
+      results << yield if block_given?
+
+      results += additional_traits(*lookup).map do |trait|
+        trait.send(method_name, *lookup)
+      end
+
+      results.flatten.compact
     end
 
     def expand_enum_traits(klass)

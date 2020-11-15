@@ -15,7 +15,7 @@ module FactoryBot
     end
 
     delegate :add_callback, :declare_attribute, :to_create, :define_trait, :constructor,
-      :callbacks, :attributes, to: :@definition
+      :callbacks, :generate_attributes, to: :@definition
 
     def names
       [@name]
@@ -24,6 +24,10 @@ module FactoryBot
     def ==(other)
       name == other.name &&
         block == other.block
+    end
+
+    def attributes(*parents)
+      generate_attributes(*parents)
     end
 
     protected

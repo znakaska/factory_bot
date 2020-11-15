@@ -16,7 +16,11 @@ module FactoryBot
     def class_name
     end
 
-    def evaluator_class
+    def ancestors
+      []
+    end
+
+    def evaluator_class(*parents)
       FactoryBot::Evaluator
     end
 

@@ -2,10 +2,17 @@ module FactoryBot
   class DefinitionHierarchy
     delegate :callbacks, :constructor, :to_create, to: Internal
 
-    def self.build_from_definition(definition)
-      build_to_create(&definition.to_create)
-      build_constructor(&definition.constructor)
-      add_callbacks definition.callbacks
+    def self.build_from_factory(factory)
+      lookup = [factory, *factory.ancestors].reverse
+
+      to_create = factory.definition.to_create(*lookup)
+      build_to_create(&to_create)
+
+      constructor = factory.definition.constructor(*lookup)
+      build_constructor(&constructor)
+
+      callbacks = factory.definition.callbacks(*lookup)
+      add_callbacks(callbacks)
     end
 
     def self.add_callbacks(callbacks)
